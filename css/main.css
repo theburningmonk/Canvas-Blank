@@ -1,0 +1,141 @@
+body 	
+{
+    font: normal 16px/20px "Helvetica Neue", Helvetica, sans-serif;
+    background: #000;
+    margin: 10px 50px;
+}
+
+aside
+{
+    font-size: small;
+}
+
+.hide
+{
+    display: none;
+}
+
+.block 
+{
+	display: block;
+}
+
+#wrapper
+{
+	width: 800px;
+    margin: 0px auto;
+}
+
+#logo
+{
+	width: 60%;
+	margin: 0 20%;
+}
+
+h3
+{
+    margin-bottom: 5px;
+}
+
+#gameArticle
+{
+}
+
+#gameArticle > section > canvas
+{
+	padding: 0;
+	margin: 0;
+}
+
+#status
+{
+	clear: both;
+	background: url(../images/status_background.jpg);
+}
+	
+#canvas
+{
+	cursor: url(../cursors/blank.cur), crosshair;
+	background: url(../images/canvas_background.jpg);
+}
+
+#splash
+{
+	background: black;
+	padding: 40px 20px;
+	color: white;
+}
+
+#progressbar
+{
+	margin: 0px 40px 0px 40px;
+}
+
+#splash > p
+{
+	text-align: center;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+#btnStart
+{	
+	margin: 20px 0px;
+}
+
+#btnHelp
+{	
+	padding: 0px;
+	margin: 10px 0px;
+	width: 100px;
+}
+
+#help
+{
+	padding: 0px 5px 0px 10px;
+	margin: 0;
+	position: relative;
+}
+
+#legends dl
+{
+	border: 1px solid #000;
+	background-color: #ddd;
+	width: 140px;
+	text-align: center;
+	padding: 5px 0px 5px 0px;
+	margin: 5px 5px 10px 0px;
+	float: left;
+	color: black;
+}
+
+#legends dl dt
+{
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+#legends dl dt img
+{
+	width: 50px;
+	height: 50px;
+}
+
+#legends dl dd
+{
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	line-height: 1.4em;
+}
+
+#scoreHelp
+{
+	clear: both;
+}
+
+#scoreHelp p
+{
+	margin: 0;
+	line-height: 1.4em;
+}

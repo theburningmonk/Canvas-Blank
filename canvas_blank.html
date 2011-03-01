@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Canvas Blank!</title>
+	
+	<link type="text/css" rel="stylesheet" href="css/main.css"/>
+    <link type="text/css" rel="Stylesheet" href="css/sunny/jquery-ui-1.8.9.custom.css" />
+	<link rel="shortcut icon" href="favicon.ico"/>
+	
+	<script type="text/javascript" src="js/jquery/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery/jquery-ui-1.8.9.custom.min.js"></script>
+	<script type="text/javascript" src="js/modernizr/modernizr-1.6.min.js"></script>
+	<script type="text/javascript" src="js/mootools/mootools-core-compressed-1.3.js"></script>
+	<script type="text/javascript" src="js/mootools/mootools-more-compressed-1.3.js"></script>
+
+    <style type="text/css">
+        /* animate the progress bar */
+        .ui-progressbar-value  
+        {
+	        background-image: url(images/pbar-ani.gif);
+	        -moz-background-size: 48px 100%;
+	        background-size: 48px 100%;
+        }
+    </style>
+
+	<script type="text/javascript">
+        var statusBackground = "images/status_background.jpg",
+            canvasBackground = "images/canvas_background.jpg";
+        var globalVarsScript = "js/game/game.globalvars.js",
+            classesScript = "js/game/game.classes.js",
+            engineScript = "js/game/game.engine.js";
+        var overallProgress = 0;
+
+        // Loads the specified javascript file, once the script is loaded increment the overall progress by the 
+        // specified amount and update the supplied progress bar
+        function loadScript(progressbar, script, perc) {
+            // load the game specific scripts
+            new Asset.javascript(script, {
+                events: {
+                    load: function () {
+                        overallProgress += perc;
+                        progressbar.progressbar("option", "value", overallProgress);
+                    }
+                }
+            });
+        }
+
+        // Loads the specified array of images, upon loading each image increment the overall progress by the
+        // specified amount and update the supplied progress bar
+        function loadImages(progressbar, images, perc) {
+            new Asset.images(images, {
+                    onProgress: function (counter, index) {
+                        overallProgress += perc;
+                        progressbar.progressbar("option", "value", overallProgress);
+                    }
+                });
+        }
+
+        $(document).ready(function () {
+            // display a warning message if canvas is not supported
+            if (!Modernizr.canvas) {
+                $("#message").html("<p><b>WARNING</b>: Your browser does not support HTML5's canvas feature, you won't be able to see the drawings below</p>");
+                $("article").hide();
+            } else {
+                // initialize the progress bar
+                var progressbar = $("#progressbar");
+                progressbar.progressbar({ value: overallProgress });
+
+                // load the scripts and background images
+                loadScript(progressbar, globalVarsScript, 20);
+                loadScript(progressbar, classesScript, 20);
+                loadScript(progressbar, engineScript, 20);
+                loadImages(progressbar, [canvasBackground, statusBackground], 20);
+
+                // check every 100 milliseconds if the overall progress is 100%
+                var loadInterval = setInterval(function () {
+                    if (overallProgress >= 100) {
+                        clearInterval(loadInterval);
+
+                        $("#splash > p > span").html("Loading complete");
+
+                        $("#btnStart").button().show().click(function () {
+                            $("#splash").hide();
+                            $("canvas").removeClass("hide").addClass("block");
+
+                            initialize();
+                            start();
+                        });
+                    }
+                }, 100);
+            }
+        });
+	</script>
+
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-12216268-1']);
+		_gaq.push(['_setDomainName', '.theburningmonk.com']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+</head>
+<body>
+	<div id="wrapper">
+		<img id="logo" src="images/logo.png"/>        
+		<span id="message"></span>        
+
+        <div class="hide">
+            <img id="bullet" src="images/bullet.png"/>
+			<img id="infinity" src="images/infinity.png"/>
+			<img id="life" src="images/life.png"/>
+            <img id="scope" src="images/scope.png" width="50" height="50"/>
+        </div>
+
+        <div id="splash">
+            <p><span>Loading...</span></p>
+            <div id="progressbar"></div>
+
+            <div id="help" title="Help">
+            	<h3>Instructions:</h3>
+            	<p>Aim and click to shoot, clear all the regular targets</p>
+				
+                <section id="legends">
+                    <h3>Legends:</h3>
+                    <dl class="gallery">
+                        <dt><img id="target" src="images/target.png" height="50"/></dt>
+                        <dt>Shoot 'em</dt>
+                        <dd>Shoot these targets to clear the stage</dd>
+                    </dl>
+                    <dl class="gallery">
+                        <dt><img id="bullet_target" src="images/bullet_target.png" height="50"/></dt>
+                        <dt>Extra bullets!</dt>
+                        <dd>Shoot these targets to earn extra bullets</dd>
+                    </dl>
+                    <dl class="gallery">
+                        <dt><img id="bomb_target" src="images/bomb_target.png" height="50"/></dt>
+                        <dt>Booom!!</dt>
+                        <dd>DON'T shoot these targets!</dd>
+                    </dl>
+                    <dl class="gallery">
+                        <dt><img id="life_target" src="images/life_target.png" height="50"/></dt>
+                        <dt>Extra lives!</dt>
+                        <dd>Shoot these targets to earn extra lives</dd>
+                    </dl>
+                    <dl class="gallery">
+                        <dt><img id="time_target" src="images/time_target.png" height="50"/></dt>
+                        <dt>More time!</dt>
+                        <dd>Shoot these targets to earn extra time</dd>
+                    </dl>
+                </section>
+
+                <section id="scoreHelp" width="100%">
+                    <h3>Scoring System:</h3>
+                    <p>Scores are cumulative - you get 1 point for the first hit, 2 for the second hit, 3 for the third and so on, until you either miss a shot or hit a bomb!</p>
+                    <p><b>Hint:</b> build up a high score by stringing together hits, you get a bonus for hitting multiple targets (not including bombs) with one bullet!</p>
+                </section>
+            </div>
+
+            <a id="btnStart" href="#" class="hide">Start Playing Now</a>
+        </div>
+
+        <div id="congrat" class="hide" title="Congratulations">
+            <p>You have completed all the stages, your score is <span id="score"></span>!</p>
+        </div>        
+
+        <article id="gameArticle">
+            <section>
+                <canvas id="status" width="800" height="100" class="hide"/>
+            </section>
+            <section>
+                <canvas id="canvas" width="800" height="600" class="hide"
+				        onSelectStart="this.style.cursor='url(cursors/blank.cur), crosshair'; return false;"/>                
+            </section>
+        </article>
+
+        <a id="btnHelp" href="#" class="hide">Help</a>
+	</div>
+</body>
+</html>
