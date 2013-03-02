@@ -11,7 +11,7 @@ This is a mini-game I made using HTML5's canavs element and uses local storage t
 
 LIVE DEMO:
 
-You can try the live demo at http://canvasblank.theburningmonk.com or http://LNK.by/fg4y.
+You can try the live demo at http://canvasblank.theburningmonk.com or http://bit.ly/YJNK4n.
 I've also put together a two-part tutorial (so far) which covers most of the steps I took to made the game:
 * part 1 - http://theburningmonk.com/2011/01/having-fun-with-html5-canvas-part-4
 * part 2 - http://theburningmonk.com/2011/01/having-fun-with-html5-canvas-part-5
